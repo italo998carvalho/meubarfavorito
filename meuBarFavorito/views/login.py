@@ -41,6 +41,6 @@ def token_required(f):
         except:
             return jsonify({'code': 401, 'body':{'mensagem': 'Token invalida!'}}), 401
         
-        return f(usuarioAtual, *args, **kwargs)
+        return f(estabelecimentoAtual, *args, **kwargs)
     
     return decoreted

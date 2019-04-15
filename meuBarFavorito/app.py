@@ -5,7 +5,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://italo:1234@localhost:5432/meubarfavoritodb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123@localhost:5432/tcc'
 db = SQLAlchemy(app)
 app.secret_key = '123456789'
 
@@ -18,3 +18,9 @@ app.register_blueprint(auth)
 
 from meuBarFavorito.views.cestabelecimento import bpestabelecimento
 app.register_blueprint(bpestabelecimento)
+
+from meuBarFavorito.views.cpartida import bppartida
+app.register_blueprint(bppartida)
+
+from meuBarFavorito.views.cevento import bpevento
+app.register_blueprint(bpevento)

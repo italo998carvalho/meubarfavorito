@@ -16,3 +16,25 @@
  	]
 }
 ```
+
+
+##### Post de evento
+
+```bash
+{
+	"idPartida": "1", 
+	"horaInicio": "21:00", 
+	"horaFim": "00:00", 
+	"descricao": "promoção..."
+}
+```
+
+# TEMPORÁRIO
+insert into partida ("nomeMandante", "siglaMandante", "escudoMandante", "nomeVisitante", "siglaVisitante", "escudoVisitante", "dataHora", "estadio")
+values ('Palmeiras', 'PAL', 'linkEscudoPalmeiras', 'Vasco', 'VAS', 'linkEscudoVasco', NOW(), 'Allianz Park')
+
+insert into partida ("nomeMandante", "siglaMandante", "escudoMandante", "nomeVisitante", "siglaVisitante", "escudoVisitante", "dataHora", "estadio")
+values ('Grêmio', 'GRE', 'linkEscudoGremio', 'Internacional', 'INT', 'linkEscudoInternacional', NOW(), 'Estádio Olímpico')
+
+insert into partida ("nomeMandante", "siglaMandante", "escudoMandante", "nomeVisitante", "siglaVisitante", "escudoVisitante", "dataHora", "estadio")
+values ('Vitória', 'VIT', 'linkEscudoVitoria', 'Bahia', 'BAH', 'linkEscudoBahia', NOW(), 'Barradão')

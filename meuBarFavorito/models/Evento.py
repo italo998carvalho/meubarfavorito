@@ -10,7 +10,7 @@ class Evento(db.Model):
     horaFim = db.Column(db.String)
     descricao = db.Column(db.Text)
 
-    def __init__(self, idEstabelecimento):
+    def __init__(self, idEstabelecimento, idPartida, horaInicio, horaFim, descricao):
         self.idEstabelecimento = idEstabelecimento
         self.idPartida = idPartida
         self.horaInicio = horaInicio
