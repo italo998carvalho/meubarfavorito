@@ -1,7 +1,7 @@
 from meuBarFavorito.app import db
 
-class Foto(db.Model):
-    __tablename__: 'fotos'
+class Partida(db.Model):
+    __tablename__: 'partidas'
 
     id = db.Column(db.Integer, primary_key=True)
     nomeMandante = db.Column(db.String)
@@ -12,7 +12,7 @@ class Foto(db.Model):
     escudoVisitante = db.Column(db.String)
     dataHora = db.Column(db.DateTime)
     estadio = db.Column(db.String)
-    eventos = db.relationship('Evento', backref='estabelecimento')
+    eventos = db.relationship('Evento', backref='partida')
 
     def __init__(self, nomeMandante, siglaMandante, escudoMandante, nomeVisitante, siglaVisitante, escudoVisitante, dataHora, estadio):
         self.nomeMandante = nomeMandante

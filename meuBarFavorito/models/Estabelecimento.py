@@ -1,4 +1,5 @@
 from meuBarFavorito.app import db
+from werkzeug.security import generate_password_hash
 
 class Estabelecimento(db.Model):
     __tablename__: 'estabelecimentos'
@@ -6,17 +7,19 @@ class Estabelecimento(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String)
     descricao = db.Column(db.Text)
-    cnpj = db.Column(db.Integer)
+    cnpj = db.Column(db.String)
     endereco = db.Column(db.String)
     email = db.Column(db.String)
+    senha = db.Column(db.String)
     telefone = db.Column(db.String)
     fotos = db.relationship('Foto', backref='estabelecimento')
     eventos = db.relationship('Evento', backref='estabelecimento')
 
-    def __init__(self, nome, descricao, cnpj, endereco, email, telefone):
+    def __init__(self, nome, descricao, cnpj, endereco, email, senha, telefone):
         self.nome = nome
         self.descricao = descricao
         self.cnpj = cnpj
         self.endereco = endereco
         self.email = email
+        self.senha = generate_password_hash(senha)
         self.telefone = telefone

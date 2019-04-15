@@ -1,7 +1,7 @@
 from meuBarFavorito.app import db
 
-class Foto(db.Model):
-    __tablename__: 'fotos'
+class Evento(db.Model):
+    __tablename__: 'eventos'
 
     id = db.Column(db.Integer, primary_key=True)
     idEstabelecimento = db.Column(db.Integer, db.ForeignKey('estabelecimento.id'))
