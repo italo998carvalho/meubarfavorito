@@ -12,103 +12,126 @@ bpevento = Blueprint('bpevento', __name__)
 @bpevento.route('/evento', methods=['POST'])
 @token_required
 def postEvento(estabelecimentoAtual):
-    data = request.get_json()
-
-    idEstabelecimento = estabelecimentoAtual.id
-    idPartida = data['idPartida']
-    horaInicio = data['horaInicio']
-    horaFim = data['horaFim']
-    descricao = data['descricao']
-
-    checkEventos = Evento.query.filter_by(idEstabelecimento = estabelecimentoAtual.id, idPartida = idPartida).first()
-
-    if checkEventos is not None:
-        return jsonify({'code': 409, 'body': {'mensagem': 'Você já possui um evento desta partida!'}}), 409
-    
-    novoEvento = Evento(idEstabelecimento, idPartida, horaInicio, horaFim, descricao)
-
     try:
+        data = request.get_json()
+
+        idEstabelecimento = estabelecimentoAtual.id
+        idPartida = data['idPartida']
+        horaInicio = data['horaInicio']
+        horaFim = data['horaFim']
+        descricao = data['descricao']
+
+        checkEventos = Evento.query.filter_by(idEstabelecimento = estabelecimentoAtual.id, idPartida = idPartida).first()
+
+        if checkEventos is not None:
+            return jsonify({'code': 409, 'body': {'mensagem': 'Você já possui um evento desta partida!'}}), 409
+        
+        novoEvento = Evento(idEstabelecimento, idPartida, horaInicio, horaFim, descricao)
+
         db.session.add(novoEvento)
         db.session.commit()
 
         return jsonify({'code': 200, 'body': {'mensagem': 'Evento cadastrado com sucesso!'}}), 200
-    except:
-        print("Erro:", sys.exc_info()[0])
+    except Exception as ex:
+        print(ex.args)
         return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
 @bpevento.route('/evento', methods=['GET'])
 def getEventos():
     try:
         eventos = Evento.query.all()
-    except:
-        print("Erro:", sys.exc_info()[0])
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
-    eventosCompletos = []
-    for evento in eventos:
-        try:
+        eventosCompletos = []
+        for evento in eventos:
             partida = Partida.query.filter_by(id = evento.idPartida).first()
             estabelecimento = Estabelecimento.query.filter_by(id = evento.idEstabelecimento).first()
-        except:
-            print("Erro:", sys.exc_info()[0])
-            return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
-        eventoAtual = {}
-        eventoAtual['id'] = evento.id
-        eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
-        eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
-        eventoAtual['nomeMandante'] = partida.nomeMandante
-        eventoAtual['escudoMandante'] = partida.escudoMandante
-        eventoAtual['nomeVisitante'] = partida.nomeVisitante
-        eventoAtual['escudoVisitante'] = partida.escudoVisitante
-        eventoAtual['data'] = partida.dataHora
+            eventoAtual = {}
+            eventoAtual['id'] = evento.id
+            eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
+            eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
+            eventoAtual['nomeMandante'] = partida.nomeMandante
+            eventoAtual['escudoMandante'] = partida.escudoMandante
+            eventoAtual['nomeVisitante'] = partida.nomeVisitante
+            eventoAtual['escudoVisitante'] = partida.escudoVisitante
+            eventoAtual['data'] = partida.dataHora
 
-        eventosCompletos.append(eventoAtual)
+            eventosCompletos.append(eventoAtual)
 
-    return jsonify(eventosCompletos)
+        return jsonify(eventosCompletos)
+
+    except Exception as ex:
+        print(ex.args)
+        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
 @bpevento.route('/evento/<int:id>', methods=['GET'])
 def getOneEvento(id):
     try:
         evento = Evento.query.filter_by(id = id).first()
-    except:
-        print("Erro:", sys.exc_info()[0])
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
-    
-    try:
         partida = Partida.query.filter_by(id = evento.idPartida).first()
         estabelecimento = Estabelecimento.query.filter_by(id = evento.idEstabelecimento).first()
-    except:
-        print("Erro:", sys.exc_info()[0])
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
-    eventoAtual = {}
-    eventoAtual['id'] = evento.id
-    eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
-    eventoAtual['descricaoEstabelecimento'] = estabelecimento.descricao
-    eventoAtual['email'] = estabelecimento.email
-    eventoAtual['telefone'] = estabelecimento.telefone
-    eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
+        eventoAtual = {}
+        eventoAtual['id'] = evento.id
+        eventoAtual['visualizacoes'] = evento.visualizacoes
 
-    try:
+        evento.visualizacoes += 1
+        db.session.commit()
+
+        eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
+        eventoAtual['descricaoEstabelecimento'] = estabelecimento.descricao
+        eventoAtual['email'] = estabelecimento.email
+        eventoAtual['telefone'] = estabelecimento.telefone
+        eventoAtual['celular'] = estabelecimento.celular
+        eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
+        eventoAtual['cep'] = estabelecimento.cep
+
         fotos = Foto.query.filter_by(idEstabelecimento = estabelecimento.id).all()
-    except:
-        print("Erro:", sys.exc_info()[0])
+
+        fotosEvento = []
+        for foto in fotos:
+            fotosEvento.append(foto.midia)
+        
+        eventoAtual['fotos'] = fotosEvento
+
+        eventoAtual['nomeMandante'] = partida.nomeMandante
+        eventoAtual['siglaMandante'] = partida.siglaMandante
+        eventoAtual['escudoMandante'] = partida.escudoMandante
+        eventoAtual['nomeVisitante'] = partida.nomeVisitante
+        eventoAtual['siglaVisitante'] = partida.siglaVisitante
+        eventoAtual['escudoVisitante'] = partida.escudoVisitante
+        eventoAtual['estadio'] = partida.estadio
+        eventoAtual['data'] = partida.dataHora
+
+        return jsonify(eventoAtual)
+    except Exception as ex:
+        print(ex.args)
         return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
-    fotosEvento = []
-    for foto in fotos:
-        fotosEvento.append(foto.midia)
+@bpevento.route('/evento/partida/<int:id>', methods=['GET'])
+def getEventosPorPartida(id):
+    try:
+        partida = Partida.query.filter_by(id = id).first()
+        eventos = Evento.query.filter_by(idPartida = partida.id).all()
+
+        eventosCompletos = []
+        for evento in eventos:
+            estabelecimento = Estabelecimento.query.filter_by(id = evento.idEstabelecimento).first()
+
+            eventoAtual = {}
+            eventoAtual['id'] = evento.id
+            eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
+            eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
+            eventoAtual['nomeMandante'] = partida.nomeMandante
+            eventoAtual['escudoMandante'] = partida.escudoMandante
+            eventoAtual['nomeVisitante'] = partida.nomeVisitante
+            eventoAtual['escudoVisitante'] = partida.escudoVisitante
+            eventoAtual['data'] = partida.dataHora
+
+            eventosCompletos.append(eventoAtual)
+
+        return jsonify(eventosCompletos)
     
-    eventoAtual['fotos'] = fotosEvento
-
-    eventoAtual['nomeMandante'] = partida.nomeMandante
-    eventoAtual['siglaMandante'] = partida.siglaMandante
-    eventoAtual['escudoMandante'] = partida.escudoMandante
-    eventoAtual['nomeVisitante'] = partida.nomeVisitante
-    eventoAtual['siglaVisitante'] = partida.siglaVisitante
-    eventoAtual['escudoVisitante'] = partida.escudoVisitante
-    eventoAtual['estadio'] = partida.estadio
-    eventoAtual['data'] = partida.dataHora
-
-    return jsonify(eventoAtual)
+    except Exception as ex:
+        print(ex.args)
+        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500

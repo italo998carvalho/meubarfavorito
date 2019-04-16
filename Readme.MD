@@ -6,9 +6,11 @@
  	"descricao": "o bar é top", 
  	"cnpj": "66.729.363/0001-80", 
  	"endereco": "rua 12, 124", 
+	"cep": "45998123", 
  	"email": "bardoze@email.com", 
  	"senha": "123", 
  	"telefone": "40028923", 
+	"celular": "948875621", 
  	"fotos": [
  		"b64jhagsdjghbds", 
  		"b64qiouweoiqvwoieq", 

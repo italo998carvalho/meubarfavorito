@@ -10,39 +10,39 @@ bppartida = Blueprint('bppartida', __name__)
 def partida():
     try:
         partidas = Partida.query.all()
-    except:
-        print("Erro:", sys.exc_info()[0])
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
-    listaPartidas = []
+        listaPartidas = []
 
-    for partida in partidas:
-        partidaAtual = {}
-        partidaAtual['id'] = partida.id
-        partidaAtual['nomeMandante'] = partida.nomeMandante
-        partidaAtual['nomeVisitante'] = partida.nomeVisitante
-        partidaAtual['dataHora'] = partida.dataHora
+        for partida in partidas:
+            partidaAtual = {}
+            partidaAtual['id'] = partida.id
+            partidaAtual['nomeMandante'] = partida.nomeMandante
+            partidaAtual['nomeVisitante'] = partida.nomeVisitante
+            partidaAtual['dataHora'] = partida.dataHora
+            
+            listaPartidas.append(partidaAtual)
         
-        listaPartidas.append(partidaAtual)
-    
-    return jsonify(listaPartidas)
+        return jsonify(listaPartidas)
+    except Exception as ex:
+        print(ex.args)
+        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
 @bppartida.route('/partida/<int:id>', methods=['GET'])
 def onePartida(id):
     try:
         partida = Partida.query.filter_by(id = id).first()
-    except:
-        print("Erro:", sys.exc_info()[0])
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
-    partidaAtual = {}
-    partidaAtual['nomeMandante'] = partida.nomeMandante
-    partidaAtual['siglaMandante'] = partida.siglaMandante
-    partidaAtual['escudoMandante'] = partida.escudoMandante
-    partidaAtual['nomeVisitante'] = partida.nomeVisitante
-    partidaAtual['siglaVisitante'] = partida.siglaVisitante
-    partidaAtual['escudoVisitante'] = partida.escudoVisitante
-    partidaAtual['dataHora'] = partida.dataHora
-    partidaAtual['estadio'] = partida.estadio
-    
-    return jsonify(partidaAtual)
+        partidaAtual = {}
+        partidaAtual['nomeMandante'] = partida.nomeMandante
+        partidaAtual['siglaMandante'] = partida.siglaMandante
+        partidaAtual['escudoMandante'] = partida.escudoMandante
+        partidaAtual['nomeVisitante'] = partida.nomeVisitante
+        partidaAtual['siglaVisitante'] = partida.siglaVisitante
+        partidaAtual['escudoVisitante'] = partida.escudoVisitante
+        partidaAtual['dataHora'] = partida.dataHora
+        partidaAtual['estadio'] = partida.estadio
+        
+        return jsonify(partidaAtual)
+    except Exception as ex:
+        print(ex.args)
+        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
