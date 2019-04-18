@@ -5,7 +5,6 @@ from meuBarFavorito.models.Estabelecimento import Estabelecimento
 from meuBarFavorito.models.Foto import Foto
 from meuBarFavorito.app import db
 from meuBarFavorito.views.login import token_required
-import sys
 
 bpevento = Blueprint('bpevento', __name__)
 

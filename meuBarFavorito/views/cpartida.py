@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 from meuBarFavorito.models.Partida import Partida
 from meuBarFavorito.app import db
 from meuBarFavorito.views.login import token_required
-import sys
 
 bppartida = Blueprint('bppartida', __name__)
 
