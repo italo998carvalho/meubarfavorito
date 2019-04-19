@@ -17,3 +17,4 @@ class Evento(db.Model):
         self.horaInicio = horaInicio
         self.horaFim = horaFim
         self.descricao = descricao
+        self.visualizacoes = 0

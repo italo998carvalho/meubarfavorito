@@ -45,3 +45,28 @@ def onePartida(id):
     except Exception as ex:
         print(ex.args)
         return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
+
+@bppartida.route('/novapartida', methods=['POST'])
+@token_required
+def postPartida(estabelecimentoAtual):
+    try:
+        data = request.get_json()
+
+        nomeMandante = data['nomeMandante']
+        siglaMandante = data['siglaMandante']
+        escudoMandante = data['escudoMandante']
+        nomeVisitante = data['nomeVisitante']
+        siglaVisitante = data['siglaVisitante']
+        escudoVisitante = data['escudoVisitante']
+        dataHora = data['dataHora']
+        estadio = data['estadio']
+
+        partida = Partida(nomeMandante, siglaMandante, escudoMandante, nomeVisitante, siglaVisitante, escudoVisitante, dataHora, estadio)
+
+        db.session.add(partida)
+        db.session.commit()
+
+        return jsonify({'code': 200, 'body': {'mensagem': 'Partida cadastrada com sucesso!'}}), 200
+    except Exception as ex:
+        print(ex.args)
+        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500

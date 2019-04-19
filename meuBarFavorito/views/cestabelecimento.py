@@ -67,6 +67,7 @@ def estabelecimento():
 def getEstabelecimento(estabelecimentoAtual):
     try:
         estabelecimento = {}
+        estabelecimento['id'] = estabelecimentoAtual.id
         estabelecimento['nome'] = estabelecimentoAtual.nome
         estabelecimento['descricao'] = estabelecimentoAtual.descricao
         estabelecimento['cnpj'] = estabelecimentoAtual.cnpj
