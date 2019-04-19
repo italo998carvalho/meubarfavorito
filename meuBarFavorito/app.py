@@ -5,7 +5,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123@localhost:5432/tcc'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'STRING DE CONEXÃO AO BANCO'
 db = SQLAlchemy(app)
 app.secret_key = '123456789'
 
