@@ -107,7 +107,7 @@ def getOneEvento(id):
         print(ex.args)
         return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
-@bpevento.route('/evento/partida/<int:id>', methods=['GET'])
+@bpevento.route('/partida/<int:id>/evento', methods=['GET'])
 def getEventosPorPartida(id):
     try:
         partida = Partida.query.filter_by(id = id).first()

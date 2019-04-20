@@ -60,8 +60,9 @@ def postPartida(estabelecimentoAtual):
         escudoVisitante = data['escudoVisitante']
         dataHora = data['dataHora']
         estadio = data['estadio']
+        campeonato = data['campeonato']
 
-        partida = Partida(nomeMandante, siglaMandante, escudoMandante, nomeVisitante, siglaVisitante, escudoVisitante, dataHora, estadio)
+        partida = Partida(nomeMandante, siglaMandante, escudoMandante, nomeVisitante, siglaVisitante, escudoVisitante, dataHora, estadio, campeonato)
 
         db.session.add(partida)
         db.session.commit()

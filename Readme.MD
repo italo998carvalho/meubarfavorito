@@ -121,7 +121,7 @@
 }
 ```
 
-###### /evento/partida/<id> - GET | PS: O id é do estabelecimento
+###### /partida/<id>/evento - GET | PS: O id é do estabelecimento
 ###### Retorna a lista de eventos do estabelecimento logado
 ```bash
 [
@@ -175,7 +175,7 @@
 }
 ```
 
-###### /novapartida - GET
+###### /novapartida - POST
 ###### Cadastra uma partida
 ```bash
 {
@@ -186,6 +186,7 @@
 	"siglaVisitante": "COR", 
 	"escudoVisitante": "linkEscudoCorinthians", 
 	"dataHora": "30-06-2019 21:45", 
-	"estadio": "Allianz Park"
+	"estadio": "Allianz Park", 
+    "campeonato": "Campeonato Brasileiro"
 }
 ```

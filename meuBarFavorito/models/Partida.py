@@ -12,9 +12,10 @@ class Partida(db.Model):
     escudoVisitante = db.Column(db.String)
     dataHora = db.Column(db.DateTime)
     estadio = db.Column(db.String)
+    campeonato = db.Column(db.String)
     eventos = db.relationship('Evento', backref='partida')
 
-    def __init__(self, nomeMandante, siglaMandante, escudoMandante, nomeVisitante, siglaVisitante, escudoVisitante, dataHora, estadio):
+    def __init__(self, nomeMandante, siglaMandante, escudoMandante, nomeVisitante, siglaVisitante, escudoVisitante, dataHora, estadio, campeonato):
         self.nomeMandante = nomeMandante
         self.siglaMandante = siglaMandante
         self.escudoMandante = escudoMandante
@@ -23,3 +24,4 @@ class Partida(db.Model):
         self.escudoVisitante = escudoVisitante
         self.dataHora = dataHora
         self.estadio = estadio
+        self.campeonato = campeonato
