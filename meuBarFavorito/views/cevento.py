@@ -54,6 +54,7 @@ def getEventos():
             eventoAtual['nomeVisitante'] = partida.nomeVisitante
             eventoAtual['escudoVisitante'] = partida.escudoVisitante
             eventoAtual['data'] = partida.dataHora
+            eventoAtual['campeonato'] = partida.campeonato
 
             eventosCompletos.append(eventoAtual)
 
@@ -101,6 +102,7 @@ def getOneEvento(id):
         eventoAtual['escudoVisitante'] = partida.escudoVisitante
         eventoAtual['estadio'] = partida.estadio
         eventoAtual['data'] = partida.dataHora
+        eventoAtual['campeonato'] = partida.campeonato
 
         return jsonify(eventoAtual)
     except Exception as ex:
@@ -126,6 +128,7 @@ def getEventosPorPartida(id):
             eventoAtual['nomeVisitante'] = partida.nomeVisitante
             eventoAtual['escudoVisitante'] = partida.escudoVisitante
             eventoAtual['data'] = partida.dataHora
+            eventoAtual['campeonato'] = partida.campeonato
 
             eventosCompletos.append(eventoAtual)
 

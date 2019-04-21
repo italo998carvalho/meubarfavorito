@@ -18,6 +18,7 @@ def partida():
             partidaAtual['nomeMandante'] = partida.nomeMandante
             partidaAtual['nomeVisitante'] = partida.nomeVisitante
             partidaAtual['dataHora'] = partida.dataHora
+            partidaAtual['campeonato'] = partida.campeonato
             
             listaPartidas.append(partidaAtual)
         
@@ -40,6 +41,7 @@ def onePartida(id):
         partidaAtual['escudoVisitante'] = partida.escudoVisitante
         partidaAtual['dataHora'] = partida.dataHora
         partidaAtual['estadio'] = partida.estadio
+        partidaAtual['campeonato'] = partida.campeonato
         
         return jsonify(partidaAtual)
     except Exception as ex:

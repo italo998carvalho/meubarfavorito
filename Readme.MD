@@ -70,6 +70,7 @@
 ```bash
 [
     {
+        "campeonato": "Campeonato Brasileiro", 
         "data": "Sun, 30 Jun 2019 21:45:00 GMT",
         "enderecoEstabelecimento": "rua 12, 124",
         "escudoMandante": "linkEscudoPalmeiras",
@@ -80,6 +81,7 @@
         "nomeVisitante": "Corinthians"
     }, 
 	{
+        "campeonato": "Campeonato Brasileiro", 
         "data": "Sun, 02 Jul 2019 21:45:00 GMT",
         "enderecoEstabelecimento": "rua 12, 125",
         "escudoMandante": "linkEscudoInternacional",
@@ -96,6 +98,7 @@
 ###### Retorna as informações de um evento
 ```bash
 {
+    "campeonato": "Campeonato Brasileiro", 
     "celular": "948875621",
     "cep": "45998123",
     "data": "Sun, 30 Jun 2019 21:45:00 GMT",
@@ -126,6 +129,7 @@
 ```bash
 [
     {
+        "campeonato": "Campeonato Brasileiro", 
         "data": "Sun, 30 Jun 2019 21:45:00 GMT",
         "enderecoEstabelecimento": "rua 12, 124",
         "escudoMandante": "linkEscudoPalmeiras",
@@ -146,12 +150,14 @@
 ```bash
 [
     {
+        "campeonato": "Campeonato Brasileiro", 
         "dataHora": "Sun, 30 Jun 2019 21:45:00 GMT",
         "id": 17,
         "nomeMandante": "Palmeiras",
         "nomeVisitante": "Corinthians"
     },
     {
+        "campeonato": "Campeonato Brasileiro", 
         "dataHora": "Sun, 02 Jul 2019 21:45:00 GMT",
         "id": 1,
         "nomeMandante": "Internacional",
@@ -164,6 +170,7 @@
 ###### Retorna as informações de uma única partida
 ```bash
 {
+    "campeonato": "Campeonato Brasileiro", 
     "dataHora": "Sun, 30 Jun 2019 21:45:00 GMT",
     "escudoMandante": "linkEscudoPalmeiras",
     "escudoVisitante": "linkEscudoCorinthians",
