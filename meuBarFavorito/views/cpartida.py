@@ -16,7 +16,9 @@ def partida():
             partidaAtual = {}
             partidaAtual['id'] = partida.id
             partidaAtual['nomeMandante'] = partida.nomeMandante
+            partidaAtual['escudoMandante'] = partida.escudoMandante
             partidaAtual['nomeVisitante'] = partida.nomeVisitante
+            partidaAtual['escudoVisitante'] = partida.escudoVisitante
             partidaAtual['dataHora'] = partida.dataHora
             partidaAtual['campeonato'] = partida.campeonato
             

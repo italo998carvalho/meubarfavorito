@@ -154,14 +154,18 @@
         "dataHora": "Sun, 30 Jun 2019 21:45:00 GMT",
         "id": 17,
         "nomeMandante": "Palmeiras",
-        "nomeVisitante": "Corinthians"
+        "escudoMandante": "linkEscudoPalmeiras", 
+        "nomeVisitante": "Corinthians", 
+        "escudoVisitante": "linkEscudoCorinthians"
     },
     {
         "campeonato": "Campeonato Brasileiro", 
         "dataHora": "Sun, 02 Jul 2019 21:45:00 GMT",
         "id": 1,
         "nomeMandante": "Internacional",
-        "nomeVisitante": "Grêmio"
+        "escudoMandante": "linkEscudoInternacional", 
+        "nomeVisitante": "Grêmio", 
+        "escudoVisitante": "linkEscudoGremio"
     }
 ]
 ```
