@@ -44,11 +44,13 @@ def getEventos():
         for evento in eventos:
             partida = Partida.query.filter_by(id = evento.idPartida).first()
             estabelecimento = Estabelecimento.query.filter_by(id = evento.idEstabelecimento).first()
+            fotoPerfil = Foto.query.filter_by(id = estabelecimento.fotoPerfil).first()
 
             eventoAtual = {}
             eventoAtual['id'] = evento.id
             eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
             eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
+            eventoAtual['fotoPerfil'] = fotoPerfil.midia
             eventoAtual['nomeMandante'] = partida.nomeMandante
             eventoAtual['escudoMandante'] = partida.escudoMandante
             eventoAtual['nomeVisitante'] = partida.nomeVisitante
@@ -70,6 +72,7 @@ def getOneEvento(id):
         evento = Evento.query.filter_by(id = id).first()
         partida = Partida.query.filter_by(id = evento.idPartida).first()
         estabelecimento = Estabelecimento.query.filter_by(id = evento.idEstabelecimento).first()
+        fotoPerfil = Foto.query.filter_by(id = estabelecimento.fotoPerfil).first()
 
         eventoAtual = {}
         eventoAtual['id'] = evento.id
@@ -84,6 +87,7 @@ def getOneEvento(id):
         eventoAtual['telefone'] = estabelecimento.telefone
         eventoAtual['celular'] = estabelecimento.celular
         eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
+        eventoAtual['fotoPerfil'] = fotoPerfil.midia
         eventoAtual['cep'] = estabelecimento.cep
 
         fotos = Foto.query.filter_by(idEstabelecimento = estabelecimento.id).all()
@@ -92,7 +96,7 @@ def getOneEvento(id):
         for foto in fotos:
             fotosEvento.append(foto.midia)
         
-        eventoAtual['fotos'] = fotosEvento
+        eventoAtual['fotosEstabelecimento'] = fotosEvento
 
         eventoAtual['nomeMandante'] = partida.nomeMandante
         eventoAtual['siglaMandante'] = partida.siglaMandante
@@ -118,11 +122,13 @@ def getEventosPorPartida(id):
         eventosCompletos = []
         for evento in eventos:
             estabelecimento = Estabelecimento.query.filter_by(id = evento.idEstabelecimento).first()
+            fotoPerfil = Foto.query.filter_by(id = estabelecimento.fotoPerfil).first()
 
             eventoAtual = {}
             eventoAtual['id'] = evento.id
             eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
             eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
+            eventoAtual['fotoPerfil'] = fotoPerfil.midia
             eventoAtual['nomeMandante'] = partida.nomeMandante
             eventoAtual['escudoMandante'] = partida.escudoMandante
             eventoAtual['nomeVisitante'] = partida.nomeVisitante

@@ -15,7 +15,8 @@ class Estabelecimento(db.Model):
     telefone = db.Column(db.String)
     celular = db.Column(db.String)
     visualizacoes = db.Column(db.Integer)
-    fotos = db.relationship('Foto', backref='estabelecimento')
+    fotoPerfil = db.Column(db.Integer)
+    fotosEstabelecimento = db.relationship('Foto', backref='estabelecimento')
     eventos = db.relationship('Evento', backref='estabelecimento')
 
     def __init__(self, nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular):

@@ -24,7 +24,8 @@
  	"senha": "123", 
  	"telefone": "40028923", 
 	"celular": "948875621", 
- 	"fotos": [
+    "fotoPerfil": "b64pokpokpok", 
+ 	"fotosEstabelecimento": [
  		"b64jhagsdjghbds", 
  		"b64qiouweoiqvwoieq", 
  		"b64znvxczvxdmbz"
@@ -40,7 +41,8 @@
     "descricao": "o bar é top",
     "email": "bardoze@email.com",
     "endereco": "rua 12, 124",
-    "fotos": [
+    "fotoPerfil": "b64pokpokpok",
+    "fotosEstabelecimento": [
         "b64jhagsdjghbds",
         "b64qiouweoiqvwoieq",
         "b64znvxczvxdmbz"
@@ -75,6 +77,7 @@
         "enderecoEstabelecimento": "rua 12, 124",
         "escudoMandante": "linkEscudoPalmeiras",
         "escudoVisitante": "linkEscudoCorinthians",
+        "fotoPerfil": "b64hueheuhue", 
         "id": 3,
         "nomeEstabelecimento": "Bar do Zé",
         "nomeMandante": "Palmeiras",
@@ -86,6 +89,7 @@
         "enderecoEstabelecimento": "rua 12, 125",
         "escudoMandante": "linkEscudoInternacional",
         "escudoVisitante": "linkEscudoGremio",
+        "fotoPerfil": "b64qiowueoqiwe", 
         "id": 5,
         "nomeEstabelecimento": "Bar do João",
         "nomeMandante": "Internacional",
@@ -108,7 +112,8 @@
     "escudoMandante": "linkEscudoPalmeiras",
     "escudoVisitante": "linkEscudoCorinthians",
     "estadio": "Allianz Park",
-    "fotos": [
+    "fotoPerfil": "b64hueheuhue",
+    "fotosEstabelecimento": [
         "b64jhagsdjghbds",
         "b64qiouweoiqvwoieq",
         "b64znvxczvxdmbz"
@@ -134,6 +139,7 @@
         "enderecoEstabelecimento": "rua 12, 124",
         "escudoMandante": "linkEscudoPalmeiras",
         "escudoVisitante": "linkEscudoCorinthians",
+        "fotoPerfil": "b64qiowueoqiwe", 
         "id": 3,
         "nomeEstabelecimento": "Bar do Zé",
         "nomeMandante": "Palmeiras",
@@ -200,4 +206,15 @@
 	"estadio": "Allianz Park", 
     "campeonato": "Campeonato Brasileiro"
 }
+```
+
+### Apply migrations
+```bash
+export FLASK_APP = meuBarFavorito/app.py
+```
+```bash
+flask db migrate
+```
+```bash
+flask db upgrade
 ```

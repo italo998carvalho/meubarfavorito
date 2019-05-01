@@ -22,6 +22,7 @@ def estabelecimento():
         senha = data['senha']
         telefone = data['telefone']
         celular = data['celular']
+        fotoPerfil = data['fotoPerfil']
 
         # limpa a string de cnpj
         cnpj = cnpj.replace(".", "").replace("/", "").replace("-", "")
@@ -46,12 +47,18 @@ def estabelecimento():
 
 
         novoEstabelecimento = Estabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular)
-
         db.session.add(novoEstabelecimento)
         db.session.commit()
 
-        fotos = data['fotos']
-        for foto in fotos:
+        fotoPerfil = Foto(fotoPerfil, novoEstabelecimento.id)
+        db.session.add(fotoPerfil)
+        db.session.commit()
+
+        novoEstabelecimento.fotoPerfil = fotoPerfil.id
+        db.session.commit()
+
+        fotosEstabelecimento = data['fotosEstabelecimento']
+        for foto in fotosEstabelecimento:
             novaFoto = Foto(foto, novoEstabelecimento.id)
 
             db.session.add(novaFoto)
@@ -74,6 +81,10 @@ def getEstabelecimento(estabelecimentoAtual):
         estabelecimento['endereco'] = estabelecimentoAtual.endereco
         estabelecimento['email'] = estabelecimentoAtual.email
         estabelecimento['telefone'] = estabelecimentoAtual.telefone
+        estabelecimento['celular'] = estabelecimentoAtual.celular
+
+        fotoPerfil = Foto.query.filter_by(id = estabelecimentoAtual.fotoPerfil).first()
+        estabelecimento['fotoPerfil'] = fotoPerfil.midia
 
         fotos = Foto.query.filter_by(idEstabelecimento = estabelecimentoAtual.id)
         
@@ -82,7 +93,7 @@ def getEstabelecimento(estabelecimentoAtual):
             fotoAtual = foto.midia
             estabelecimentoFotos.append(fotoAtual)
 
-        estabelecimento['fotos'] = estabelecimentoFotos
+        estabelecimento['fotosEstabelecimento'] = estabelecimentoFotos
 
         return jsonify(estabelecimento)
     except Exception as ex:
