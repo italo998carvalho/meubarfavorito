@@ -57,6 +57,7 @@ def getEventos():
             eventoAtual['escudoVisitante'] = partida.escudoVisitante
             eventoAtual['data'] = partida.dataHora
             eventoAtual['campeonato'] = partida.campeonato
+            eventoAtual['estadio'] = partida.estadio
 
             eventosCompletos.append(eventoAtual)
 
@@ -99,10 +100,8 @@ def getOneEvento(id):
         eventoAtual['fotosEstabelecimento'] = fotosEvento
 
         eventoAtual['nomeMandante'] = partida.nomeMandante
-        eventoAtual['siglaMandante'] = partida.siglaMandante
         eventoAtual['escudoMandante'] = partida.escudoMandante
         eventoAtual['nomeVisitante'] = partida.nomeVisitante
-        eventoAtual['siglaVisitante'] = partida.siglaVisitante
         eventoAtual['escudoVisitante'] = partida.escudoVisitante
         eventoAtual['estadio'] = partida.estadio
         eventoAtual['data'] = partida.dataHora
@@ -135,6 +134,7 @@ def getEventosPorPartida(id):
             eventoAtual['escudoVisitante'] = partida.escudoVisitante
             eventoAtual['data'] = partida.dataHora
             eventoAtual['campeonato'] = partida.campeonato
+            eventoAtual['estadio'] = partida.estadio
 
             eventosCompletos.append(eventoAtual)
 

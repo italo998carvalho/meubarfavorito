@@ -122,8 +122,6 @@
     "nomeEstabelecimento": "Bar do Zé",
     "nomeMandante": "Palmeiras",
     "nomeVisitante": "Corinthians",
-    "siglaMandante": "PAL",
-    "siglaVisitante": "COR",
     "telefone": "40028923",
     "visualizacoes": 0
 }
@@ -186,9 +184,7 @@
     "escudoVisitante": "linkEscudoCorinthians",
     "estadio": "Allianz Park",
     "nomeMandante": "Palmeiras",
-    "nomeVisitante": "Corinthians",
-    "siglaMandante": "PAL",
-    "siglaVisitante": "COR"
+    "nomeVisitante": "Corinthians"
 }
 ```
 
@@ -197,10 +193,7 @@
 ```bash
 {
 	"nomeMandante": "Palmeiras", 
-	"siglaMandante": "PAL", 
 	"escudoMandante": "linkEscudoPalmeiras", 
-	"nomeVisitante": "Corinthians", 
-	"siglaVisitante": "COR", 
 	"escudoVisitante": "linkEscudoCorinthians", 
 	"dataHora": "30-06-2019 21:45", 
 	"estadio": "Allianz Park", 
@@ -210,7 +203,7 @@
 
 ### Apply migrations
 ```bash
-export FLASK_APP = meuBarFavorito/app.py
+export FLASK_APP=meuBarFavorito/app.py
 ```
 ```bash
 flask db migrate

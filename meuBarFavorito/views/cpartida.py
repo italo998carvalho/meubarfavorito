@@ -21,6 +21,7 @@ def partida():
             partidaAtual['escudoVisitante'] = partida.escudoVisitante
             partidaAtual['dataHora'] = partida.dataHora
             partidaAtual['campeonato'] = partida.campeonato
+            partidaAtual['estadio'] = partida.estadio
             
             listaPartidas.append(partidaAtual)
         
@@ -36,10 +37,8 @@ def onePartida(id):
 
         partidaAtual = {}
         partidaAtual['nomeMandante'] = partida.nomeMandante
-        partidaAtual['siglaMandante'] = partida.siglaMandante
         partidaAtual['escudoMandante'] = partida.escudoMandante
         partidaAtual['nomeVisitante'] = partida.nomeVisitante
-        partidaAtual['siglaVisitante'] = partida.siglaVisitante
         partidaAtual['escudoVisitante'] = partida.escudoVisitante
         partidaAtual['dataHora'] = partida.dataHora
         partidaAtual['estadio'] = partida.estadio
@@ -57,16 +56,14 @@ def postPartida(estabelecimentoAtual):
         data = request.get_json()
 
         nomeMandante = data['nomeMandante']
-        siglaMandante = data['siglaMandante']
         escudoMandante = data['escudoMandante']
         nomeVisitante = data['nomeVisitante']
-        siglaVisitante = data['siglaVisitante']
         escudoVisitante = data['escudoVisitante']
         dataHora = data['dataHora']
         estadio = data['estadio']
         campeonato = data['campeonato']
 
-        partida = Partida(nomeMandante, siglaMandante, escudoMandante, nomeVisitante, siglaVisitante, escudoVisitante, dataHora, estadio, campeonato)
+        partida = Partida(nomeMandante, escudoMandante, nomeVisitante, escudoVisitante, dataHora, estadio, campeonato)
 
         db.session.add(partida)
         db.session.commit()
