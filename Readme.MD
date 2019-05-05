@@ -75,8 +75,8 @@
         "campeonato": "Campeonato Brasileiro", 
         "data": "Sun, 30 Jun 2019 21:45:00 GMT",
         "enderecoEstabelecimento": "rua 12, 124",
-        "escudoMandante": "linkEscudoPalmeiras",
-        "escudoVisitante": "linkEscudoCorinthians",
+        "escudoMandante": "b64qoiwueoquwoeoqie",
+        "escudoVisitante": "b64qoiwueoquwoeoqqw",
         "fotoPerfil": "b64hueheuhue", 
         "id": 3,
         "nomeEstabelecimento": "Bar do Zé",
@@ -87,8 +87,8 @@
         "campeonato": "Campeonato Brasileiro", 
         "data": "Sun, 02 Jul 2019 21:45:00 GMT",
         "enderecoEstabelecimento": "rua 12, 125",
-        "escudoMandante": "linkEscudoInternacional",
-        "escudoVisitante": "linkEscudoGremio",
+        "escudoMandante": "b64qoiwueoquwoeoqas",
+        "escudoVisitante": "b64qoiwueoquwoeoqjh",
         "fotoPerfil": "b64qiowueoqiwe", 
         "id": 5,
         "nomeEstabelecimento": "Bar do João",
@@ -109,8 +109,8 @@
     "descricaoEstabelecimento": "o bar é top",
     "email": "bardoze@email.com",
     "enderecoEstabelecimento": "rua 12, 124",
-    "escudoMandante": "linkEscudoPalmeiras",
-    "escudoVisitante": "linkEscudoCorinthians",
+    "escudoMandante": "b64qoiwueoquwoeoqie",
+    "escudoVisitante": "b64qoiwueoquwoeoqqw",
     "estadio": "Allianz Park",
     "fotoPerfil": "b64hueheuhue",
     "fotosEstabelecimento": [
@@ -135,8 +135,8 @@
         "campeonato": "Campeonato Brasileiro", 
         "data": "Sun, 30 Jun 2019 21:45:00 GMT",
         "enderecoEstabelecimento": "rua 12, 124",
-        "escudoMandante": "linkEscudoPalmeiras",
-        "escudoVisitante": "linkEscudoCorinthians",
+        "escudoMandante": "b64qoiwueoquwoeoqie",
+        "escudoVisitante": "b64qoiwueoquwoeoqqw",
         "fotoPerfil": "b64qiowueoqiwe", 
         "id": 3,
         "nomeEstabelecimento": "Bar do Zé",
@@ -158,18 +158,18 @@
         "dataHora": "Sun, 30 Jun 2019 21:45:00 GMT",
         "id": 17,
         "nomeMandante": "Palmeiras",
-        "escudoMandante": "linkEscudoPalmeiras", 
+        "escudoMandante": "b64qoiwueoquwoeoqie", 
         "nomeVisitante": "Corinthians", 
-        "escudoVisitante": "linkEscudoCorinthians"
+        "escudoVisitante": "b64qoiwueoquwoeoqqw"
     },
     {
         "campeonato": "Campeonato Brasileiro", 
         "dataHora": "Sun, 02 Jul 2019 21:45:00 GMT",
         "id": 1,
         "nomeMandante": "Internacional",
-        "escudoMandante": "linkEscudoInternacional", 
+        "escudoMandante": "b64qoiwueoquwoeoqas", 
         "nomeVisitante": "Grêmio", 
-        "escudoVisitante": "linkEscudoGremio"
+        "escudoVisitante": "b64qoiwueoquwoeoqjh"
     }
 ]
 ```
@@ -180,8 +180,8 @@
 {
     "campeonato": "Campeonato Brasileiro", 
     "dataHora": "Sun, 30 Jun 2019 21:45:00 GMT",
-    "escudoMandante": "linkEscudoPalmeiras",
-    "escudoVisitante": "linkEscudoCorinthians",
+    "escudoMandante": "b64qoiwueoquwoeoqie",
+    "escudoVisitante": "b64qoiwueoquwoeoqqw",
     "estadio": "Allianz Park",
     "nomeMandante": "Palmeiras",
     "nomeVisitante": "Corinthians"
@@ -193,8 +193,8 @@
 ```bash
 {
 	"nomeMandante": "Palmeiras", 
-	"escudoMandante": "linkEscudoPalmeiras", 
-	"escudoVisitante": "linkEscudoCorinthians", 
+	"escudoMandante": "b64qoiwueoquwoeoqie", 
+	"escudoVisitante": "b64qoiwueoquwoeoqqw", 
 	"dataHora": "30-06-2019 21:45", 
 	"estadio": "Allianz Park", 
     "campeonato": "Campeonato Brasileiro"

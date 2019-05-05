@@ -1,6 +1,7 @@
 import bs4
-import requests, time, datetime
-from meuBarFavorito.app import db
+import requests, time, datetime, base64
+from urllib.request import urlopen
+from meuBarFavorito.app import db, app
 from meuBarFavorito.models.Partida import Partida
 
 def getSource(link):
@@ -50,8 +51,14 @@ for idRodada in range(38):
 
         # escudos do mandante e visitante
         escudos = jogo.find_all("img")
-        escudoMandante = escudos[0].get("src")[2:] # o src padrão vem com um // na frente, o [2:] serve pra removê-los
-        escudoVisitante = escudos[1].get("src")[2:]
+
+        escudoMandante = escudos[0].get("src")
+        escudoMandante = urlopen("http:" + escudoMandante)
+        escudoMandante = "data:image/png;base64," + base64.b64encode(escudoMandante.read()).decode("utf-8")
+
+        escudoVisitante = escudos[1].get("src")
+        escudoVisitante = urlopen("http:" + escudoVisitante)
+        escudoVisitante = "data:image/png;base64," + base64.b64encode(escudoVisitante.read()).decode("utf-8")
 
         campeonato = "Campeonato Brasileiro SÉRIE-A"
 
