@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from meuBarFavorito.models.Estabelecimento import Estabelecimento
 from meuBarFavorito.models.Foto import Foto
+from meuBarFavorito.models.Evento import Evento
 from meuBarFavorito.app import db
 from meuBarFavorito.views.login import token_required
 import requests as req
@@ -77,6 +78,7 @@ def getEstabelecimento(estabelecimentoAtual):
         estabelecimento['id'] = estabelecimentoAtual.id
         estabelecimento['nome'] = estabelecimentoAtual.nome
         estabelecimento['descricao'] = estabelecimentoAtual.descricao
+        estabelecimento['cep'] = estabelecimentoAtual.cep
         estabelecimento['cnpj'] = estabelecimentoAtual.cnpj
         estabelecimento['endereco'] = estabelecimentoAtual.endereco
         estabelecimento['email'] = estabelecimentoAtual.email
@@ -96,6 +98,57 @@ def getEstabelecimento(estabelecimentoAtual):
         estabelecimento['fotosEstabelecimento'] = estabelecimentoFotos
 
         return jsonify(estabelecimento)
+    except Exception as ex:
+        print(ex.args)
+        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
+
+@bpestabelecimento.route('/estabelecimento', methods=['PUT'])
+@token_required
+def putEstabelecimento(estabelecimentoAtual):
+    try:
+        data = request.get_json()
+
+        nome = data['nome']
+        descricao = data['descricao']
+        cep = data['cep']
+        endereco = data['endereco']
+        email = data['email']
+        telefone = data['telefone']
+        celular = data['celular']
+
+        estabelecimentoAtual.nome = nome
+        estabelecimentoAtual.descricao = descricao
+        estabelecimentoAtual.cep = cep
+        estabelecimentoAtual.endereco = endereco
+        estabelecimentoAtual.email = email
+        estabelecimentoAtual.telefone = telefone
+        estabelecimentoAtual.celular = celular
+
+        db.session.commit()
+
+        return jsonify({'code': 200, 'body': {'mensagem': 'Estabelecimento atualizado com sucesso!'}}), 200
+    except Exception as ex:
+        print(ex.args)
+        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
+
+@bpestabelecimento.route('/estabelecimento', methods=['DELETE'])
+@token_required
+def delEstabelecimento(estabelecimentoAtual):
+    try:
+        eventos = Evento.query.filter_by(idEstabelecimento=estabelecimentoAtual.id).all()
+        for evento in eventos:
+            db.session.delete(evento)
+            db.session.commit()
+
+        fotos = Foto.query.filter_by(idEstabelecimento=estabelecimentoAtual.id).all()
+        for foto in fotos:
+            db.session.delete(foto)
+            db.session.commit()
+
+        db.session.delete(estabelecimentoAtual)
+        db.session.commit()
+
+        return jsonify({'code': 200, 'body': {'mensagem': 'Estabelecimento atualizado com sucesso!'}}), 200
     except Exception as ex:
         print(ex.args)
         return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500

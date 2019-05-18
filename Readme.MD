@@ -53,6 +53,23 @@
 }
 ```
 
+###### /estabelecimento - PUT
+###### Atualiza as informações do estabelecimento logado
+```bash
+{
+    "celular": "948875621",
+    "cep": "45998123",
+    "descricao": "o bar é muito bom",
+    "email": "bardoze@email.com",
+    "endereco": "rua 12, 200",
+    "nome": "Bar do Zé",
+    "telefone": "40028923"
+}
+```
+
+##### /estabelecimento - DELETE
+##### Exclui o estabelecimento logado e todas as suas informações
+
 
 #### Evento
 

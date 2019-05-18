@@ -3,6 +3,7 @@ import requests, time, datetime, base64
 from urllib.request import urlopen
 from meuBarFavorito.app import db, app
 from meuBarFavorito.models.Partida import Partida
+from meuBarFavorito.models.Evento import Evento
 
 def getSource(link):
     source = requests.get(link)
@@ -72,5 +73,9 @@ for idRodada in range(38):
 
 jogosPassados = Partida.query.filter(Partida.dataHora <= datetime.datetime.now()).all()
 for jogo in jogosPassados:
+    eventos = Evento.query.filter_by(idPartida=jogo.id).all()
+    for evento in eventos:
+        db.session.delete(evento)
+        db.session.commit()
     db.session.delete(jogo)
     db.session.commit()
