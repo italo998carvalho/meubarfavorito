@@ -88,7 +88,8 @@ def getEstabelecimento(estabelecimentoAtual):
         fotoPerfil = Foto.query.filter_by(id = estabelecimentoAtual.fotoPerfil).first()
         estabelecimento['fotoPerfil'] = fotoPerfil.midia
 
-        fotos = Foto.query.filter_by(idEstabelecimento = estabelecimentoAtual.id)
+        # retorna todas as fotos do estabelecimento, com exceção da foto de perfil
+        fotos = Foto.query.filter(Foto.idEstabelecimento == estabelecimentoAtual.id).filter(Foto.id != estabelecimentoAtual.fotoPerfil).all()
         
         estabelecimentoFotos = []
         for foto in fotos:
