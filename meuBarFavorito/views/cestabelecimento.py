@@ -33,18 +33,18 @@ def estabelecimento():
         if checkCnpj is not None:
             return jsonify({'code': 409, 'body': {'mensagem': 'Este CNPJ já está cadastrado!'}}), 409
 
-        # # Consulta na API de cnpj
-        # source = req.get('https://www.receitaws.com.br/v1/cnpj/{}'.format(cnpj))
-        # while source.status_code == 429:
-        #     time.sleep(3)
-        #     source = req.get('https://www.receitaws.com.br/v1/cnpj/{}'.format(cnpj))
+        # Consulta na API de cnpj
+        source = req.get('https://www.receitaws.com.br/v1/cnpj/{}'.format(cnpj))
+        while source.status_code == 429:
+            time.sleep(3)
+            source = req.get('https://www.receitaws.com.br/v1/cnpj/{}'.format(cnpj))
         
-        # source = source.json()
+        source = source.json()
 
-        # if source['status'] == 'ERROR':
-        #     return jsonify({'code': 409, 'body': {'mensagem': source['message']}}), 409
-        # if source['status'] == "OK" and source['situacao'] != "ATIVA":
-        #     return jsonify({'code': 409, 'body': {'mensagem': 'Situação da empresa: {}'.format(source['situacao'])}}), 409
+        if source['status'] == 'ERROR':
+            return jsonify({'code': 409, 'body': {'mensagem': source['message']}}), 409
+        if source['status'] == "OK" and source['situacao'] != "ATIVA":
+            return jsonify({'code': 409, 'body': {'mensagem': 'Situação da empresa: {}'.format(source['situacao'])}}), 409
 
 
         novoEstabelecimento = Estabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular)
