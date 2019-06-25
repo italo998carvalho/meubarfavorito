@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort, make_response
 from meuBarFavorito.models.Estabelecimento import Estabelecimento
 from meuBarFavorito.models.Foto import Foto
 from meuBarFavorito.app import db
@@ -22,6 +22,7 @@ def estabelecimento():
     telefone = data['telefone']
     celular = data['celular']
     fotoPerfil = data['fotoPerfil']
+    fotosEstabelecimento = data['fotosEstabelecimento']
 
     # limpa a string de cnpj
     cnpj = cnpj.replace(".", "").replace("/", "").replace("-", "")
@@ -31,31 +32,11 @@ def estabelecimento():
     if checkCnpj is not None:
         return jsonify({'code': 409, 'body': {'mensagem': 'Este CNPJ já está cadastrado!'}}), 409
 
-    # # Consulta na API de cnpj
-    # source = req.get('https://www.receitaws.com.br/v1/cnpj/{}'.format(cnpj))
-    # while source.status_code == 429:
-    #     time.sleep(3)
-    #     source = req.get('https://www.receitaws.com.br/v1/cnpj/{}'.format(cnpj))
-    
-    # source = source.json()
+    # consulta a API de CNPJ para verificar a situação atual
+    consultaCNPJ(cnpj)
 
-    # if source['status'] == 'ERROR':
-    #     return jsonify({'code': 409, 'body': {'mensagem': source['message']}}), 409
-    # if source['status'] == "OK" and source['situacao'] != "ATIVA":
-    #     return jsonify({'code': 409, 'body': {'mensagem': 'Situação da empresa: {}'.format(source['situacao'])}}), 409
+    cadastraEstabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular, fotoPerfil, fotosEstabelecimento)
 
-
-    cadastraEstabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular)
-
-    # fotoPerfil = salvaFoto(fotoPerfil, novoEstabelecimento.id)
-
-    # novoEstabelecimento.fotoPerfil = fotoPerfil.id
-    # db.session.commit()
-
-    # fotosEstabelecimento = data['fotosEstabelecimento']
-    # for foto in fotosEstabelecimento:
-    #     novaFoto = salvaFoto(foto, novoEstabelecimento.id)
-        
     return jsonify({'code': 200, 'body': {'mensagem': 'Estabelecimento cadastrado com sucesso!'}}), 200
 
 @bpestabelecimento.route('/estabelecimento', methods=['GET'])
@@ -90,26 +71,45 @@ def getEstabelecimento(estabelecimentoAtual):
         return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
 
 def salvar(obj):
-    # try:
-    #     db.session.add(obj)
-    #     db.session.commit()
-    # except Exception as ex:
-    #     print(ex.args)
-    #     return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
     try:
-        return 1/0
+        db.session.add(obj)
+        db.session.commit()
     except Exception as ex:
         print(ex.args)
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
+        abortComErro({'code': 500, 'body': {'mensagem': 'Erro interno!'}}, 500)
 
-def cadastraEstabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular):
+def cadastraEstabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular, fotoPerfil, fotosEstabelecimento):
     novoEstabelecimento = Estabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular)
     salvar(novoEstabelecimento)
+
+    fotoPerfil = salvaFoto(fotoPerfil, novoEstabelecimento.id)
+
+    novoEstabelecimento.fotoPerfil = fotoPerfil.id
+    db.session.commit()
+
+    for foto in fotosEstabelecimento:
+        novaFoto = salvaFoto(foto, novoEstabelecimento.id)
 
     return novoEstabelecimento
 
 def salvaFoto(midia, idEstabelecimento):
     novaFoto = Foto(midia, idEstabelecimento)
-    print(salvar(novaFoto))
+    salvar(novaFoto)
 
     return novaFoto
+
+def abortComErro(json, codigo):
+    abort(make_response(jsonify(json), codigo))
+
+def consultaCNPJ(cnpj):
+    source = req.get('https://www.receitaws.com.br/v1/cnpj/{}'.format(cnpj))
+    while source.status_code == 429:
+        time.sleep(3)
+        source = req.get('https://www.receitaws.com.br/v1/cnpj/{}'.format(cnpj))
+    
+    source = source.json()
+
+    if source['status'] == 'ERROR':
+        abortComErro({'code': 409, 'body': {'mensagem': source['message']}}, 409)
+    if source['status'] == "OK" and source['situacao'] != "ATIVA":
+        abortComErro({'code': 409, 'body': {'mensagem': 'Situação da empresa: {}'.format(source['situacao'])}}, 409)
