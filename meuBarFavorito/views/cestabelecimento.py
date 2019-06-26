@@ -13,15 +13,11 @@ bpestabelecimento = Blueprint('bpestabelecimento', __name__)
 def estabelecimento():
     data = request.get_json()
 
-    cnpj = data['cnpj']
-
-    # limpa a string de cnpj
-    cnpj = cnpj.replace(".", "").replace("/", "").replace("-", "")
+    # recebe e limpa a string de cnpj
+    cnpj = data['cnpj'].replace(".", "").replace("/", "").replace("-", "")
 
     # verifica se ja tem um cnpj igual no banco
-    checkCnpj = Estabelecimento.query.filter_by(cnpj = cnpj).first()
-    if checkCnpj is not None:
-        return jsonify({'code': 409, 'body': {'mensagem': 'Este CNPJ já está cadastrado!'}}), 409
+    verificaCNPJRepetido(cnpj)
 
     # consulta a API de CNPJ para verificar a situação atual
     consultaCNPJ(cnpj)
@@ -169,3 +165,8 @@ def consultaCNPJ(cnpj):
         abortComErro({'code': 409, 'body': {'mensagem': source['message']}}, 409)
     if source['status'] == "OK" and source['situacao'] != "ATIVA":
         abortComErro({'code': 409, 'body': {'mensagem': 'Situação da empresa: {}'.format(source['situacao'])}}, 409)
+
+def verificaCNPJRepetido(cnpj):
+    checkCnpj = Estabelecimento.query.filter_by(cnpj = cnpj).first()
+    if checkCnpj is not None:
+        abortComErro({'code': 409, 'body': {'mensagem': 'Este CNPJ já está cadastrado!'}}, 409)
