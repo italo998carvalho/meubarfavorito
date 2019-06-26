@@ -13,17 +13,7 @@ bpestabelecimento = Blueprint('bpestabelecimento', __name__)
 def estabelecimento():
     data = request.get_json()
 
-    nome = data['nome']
-    descricao = data['descricao']
     cnpj = data['cnpj']
-    cep = data['cep']
-    endereco = data['endereco']
-    email = data['email']
-    senha = data['senha']
-    telefone = data['telefone']
-    celular = data['celular']
-    fotoPerfil = data['fotoPerfil']
-    fotosEstabelecimento = data['fotosEstabelecimento']
 
     # limpa a string de cnpj
     cnpj = cnpj.replace(".", "").replace("/", "").replace("-", "")
@@ -36,7 +26,19 @@ def estabelecimento():
     # consulta a API de CNPJ para verificar a situação atual
     consultaCNPJ(cnpj)
 
-    cadastraEstabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular, fotoPerfil, fotosEstabelecimento)
+    cadastraEstabelecimento(
+        nome = data['nome'], 
+        descricao = data['descricao'], 
+        cnpj = cnpj, 
+        cep = data['cep'], 
+        endereco = data['endereco'], 
+        email = data['email'], 
+        senha = data['senha'], 
+        telefone = data['telefone'], 
+        celular = data['celular'], 
+        fotoPerfil = data['fotoPerfil'], 
+        fotosEstabelecimento = data['fotosEstabelecimento']
+    )
 
     return jsonify({'code': 200, 'body': {'mensagem': 'Estabelecimento cadastrado com sucesso!'}}), 200
 
@@ -123,6 +125,7 @@ def delEstabelecimento(estabelecimentoAtual):
     except Exception as ex:
         print(ex.args)
         return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
+
 def salvar(obj):
     try:
         db.session.add(obj)
