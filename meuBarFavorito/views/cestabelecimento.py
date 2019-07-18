@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, abort, make_response
+from meuBarFavorito.infraestructure.DbAccess import commit, salvar, deletar, abortComErro
 from meuBarFavorito.models.Estabelecimento import Estabelecimento
 from meuBarFavorito.models.Foto import Foto
 from meuBarFavorito.models.Evento import Evento
@@ -20,7 +21,7 @@ def estabelecimento():
     verificaCNPJRepetido(cnpj)
 
     # consulta a API de CNPJ para verificar a situação atual
-    consultaCNPJ(cnpj)
+    # consultaCNPJ(cnpj)
 
     cadastraEstabelecimento(
         nome = data['nome'], 
@@ -103,29 +104,6 @@ def delEstabelecimento(estabelecimentoAtual):
 
     return jsonify({'code': 200, 'body': {'mensagem': 'Estabelecimento atualizado com sucesso!'}}), 200
 
-def commit():
-    try:
-        db.session.commit()
-    except Exception as ex:
-        print(ex.args)
-        abortComErro({'code': 500, 'body': {'mensagem': 'Erro interno!'}}, 500)
-
-def salvar(obj):
-    try:
-        db.session.add(obj)
-        db.session.commit()
-    except Exception as ex:
-        print(ex.args)
-        abortComErro({'code': 500, 'body': {'mensagem': 'Erro interno!'}}, 500)
-
-def deletar(obj):
-    try:
-        db.session.delete(obj)
-        db.session.commit()
-    except Exception as ex:
-        print(ex.args)
-        abortComErro({'code': 500, 'body': {'mensagem': 'Erro interno!'}}, 500)
-
 def cadastraEstabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular, fotoPerfil, fotosEstabelecimento):
     novoEstabelecimento = Estabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, telefone, celular)
     salvar(novoEstabelecimento)
@@ -133,7 +111,7 @@ def cadastraEstabelecimento(nome, descricao, cnpj, cep, endereco, email, senha, 
     fotoPerfil = salvaFoto(fotoPerfil, novoEstabelecimento.id)
 
     novoEstabelecimento.fotoPerfil = fotoPerfil.id
-    db.session.commit()
+    commit()
 
     for foto in fotosEstabelecimento:
         novaFoto = salvaFoto(foto, novoEstabelecimento.id)
@@ -145,9 +123,6 @@ def salvaFoto(midia, idEstabelecimento):
     salvar(novaFoto)
 
     return novaFoto
-
-def abortComErro(json, codigo):
-    abort(make_response(jsonify(json), codigo))
 
 def consultaCNPJ(cnpj):
     source = req.get('https://www.receitaws.com.br/v1/cnpj/{}'.format(cnpj))
