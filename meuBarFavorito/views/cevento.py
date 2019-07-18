@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from meuBarFavorito.infraestructure.DbAccess import commit, salvar, deletar, abortComErro
 from meuBarFavorito.models.Evento import Evento
 from meuBarFavorito.models.Partida import Partida
 from meuBarFavorito.models.Estabelecimento import Estabelecimento
@@ -11,29 +12,21 @@ bpevento = Blueprint('bpevento', __name__)
 @bpevento.route('/evento', methods=['POST'])
 @token_required
 def postEvento(estabelecimentoAtual):
-    try:
-        data = request.get_json()
+    data = request.get_json()
 
-        idEstabelecimento = estabelecimentoAtual.id
-        idPartida = data['idPartida']
-        horaInicio = data['horaInicio']
-        horaFim = data['horaFim']
+    idEstabelecimento = estabelecimentoAtual.id
+
+    verificarEventoRepetido(idEstabelecimento, data['idPartida'])
+    
+    cadastrarEvento(
+        idEstabelecimento = idEstabelecimento, 
+        idPartida = data['idPartida'], 
+        horaInicio = data['horaInicio'], 
+        horaFim = data['horaFim'], 
         descricao = data['descricao']
+    )
 
-        checkEventos = Evento.query.filter_by(idEstabelecimento = estabelecimentoAtual.id, idPartida = idPartida).first()
-
-        if checkEventos is not None:
-            return jsonify({'code': 409, 'body': {'mensagem': 'Você já possui um evento desta partida!'}}), 409
-        
-        novoEvento = Evento(idEstabelecimento, idPartida, horaInicio, horaFim, descricao)
-
-        db.session.add(novoEvento)
-        db.session.commit()
-
-        return jsonify({'code': 200, 'body': {'mensagem': 'Evento cadastrado com sucesso!'}}), 200
-    except Exception as ex:
-        print(ex.args)
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
+    return jsonify({'code': 200, 'body': {'mensagem': 'Evento cadastrado com sucesso!'}}), 200
 
 @bpevento.route('/evento', methods=['GET'])
 def getEventos():
@@ -143,3 +136,15 @@ def getEventosPorPartida(id):
     except Exception as ex:
         print(ex.args)
         return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
+
+def cadastrarEvento(idEstabelecimento, idPartida, horaInicio, horaFim, descricao):
+    novoEvento = Evento(idEstabelecimento, idPartida, horaInicio, horaFim, descricao)
+    salvar(novoEvento)
+
+    return novoEvento
+
+def verificarEventoRepetido(idEstabelecimento, idPartida):
+    checkEventos = Evento.query.filter_by(idEstabelecimento = idEstabelecimento, idPartida = idPartida).first()
+
+    if checkEventos is not None:
+        abortComErro({'code': 409, 'body': {'mensagem': 'Você já possui um evento desta partida!'}}, 409)
