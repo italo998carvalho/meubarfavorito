@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -6,7 +7,13 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = '***REMOVED***'
+connUser = os.environ.get('CONN_USER')
+connPassword = os.environ.get('CONN_PASSWORD')
+connHost = os.environ.get('CONN_HOST')
+connDb = os.environ.get('CONN_DB')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgres://{connUser}:{connPassword}@{connHost}/{connDb}'
+
 db = SQLAlchemy(app)
 app.secret_key = '123456789'
 migrate = Migrate(app, db)
