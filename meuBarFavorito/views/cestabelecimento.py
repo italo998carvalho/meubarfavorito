@@ -21,7 +21,7 @@ def estabelecimento():
     verificaCNPJRepetido(cnpj)
 
     # consulta a API de CNPJ para verificar a situação atual
-    # consultaCNPJ(cnpj)
+    consultaCNPJ(cnpj)
 
     cadastraEstabelecimento(
         nome = data['nome'], 
@@ -42,35 +42,29 @@ def estabelecimento():
 @bpestabelecimento.route('/estabelecimento', methods=['GET'])
 @token_required
 def getEstabelecimento(estabelecimentoAtual):
-    try:
-        estabelecimento = {}
-        estabelecimento['id'] = estabelecimentoAtual.id
-        estabelecimento['nome'] = estabelecimentoAtual.nome
-        estabelecimento['descricao'] = estabelecimentoAtual.descricao
-        estabelecimento['cep'] = estabelecimentoAtual.cep
-        estabelecimento['cnpj'] = estabelecimentoAtual.cnpj
-        estabelecimento['endereco'] = estabelecimentoAtual.endereco
-        estabelecimento['email'] = estabelecimentoAtual.email
-        estabelecimento['telefone'] = estabelecimentoAtual.telefone
-        estabelecimento['celular'] = estabelecimentoAtual.celular
+    estabelecimento = {}
+    estabelecimento['id'] = estabelecimentoAtual.id
+    estabelecimento['nome'] = estabelecimentoAtual.nome
+    estabelecimento['descricao'] = estabelecimentoAtual.descricao
+    estabelecimento['cep'] = estabelecimentoAtual.cep
+    estabelecimento['cnpj'] = estabelecimentoAtual.cnpj
+    estabelecimento['endereco'] = estabelecimentoAtual.endereco
+    estabelecimento['email'] = estabelecimentoAtual.email
+    estabelecimento['telefone'] = estabelecimentoAtual.telefone
+    estabelecimento['celular'] = estabelecimentoAtual.celular
 
-        fotoPerfil = Foto.query.filter_by(id = estabelecimentoAtual.fotoPerfil).first()
-        estabelecimento['fotoPerfil'] = fotoPerfil.midia
+    fotoPerfil = getFoto(estabelecimentoAtual.fotoPerfil)
+    estabelecimento['fotoPerfil'] = fotoPerfil.midia
 
-        # retorna todas as fotos do estabelecimento, com exceção da foto de perfil
-        fotos = Foto.query.filter(Foto.idEstabelecimento == estabelecimentoAtual.id).filter(Foto.id != estabelecimentoAtual.fotoPerfil).all()
-        
-        estabelecimentoFotos = []
-        for foto in fotos:
-            fotoAtual = foto.midia
-            estabelecimentoFotos.append(fotoAtual)
+    fotos = getListaDeFotosDoEstabelecimento(estabelecimentoAtual)
+    
+    estabelecimentoFotos = []
+    for foto in fotos:
+        estabelecimentoFotos.append(foto.midia)
 
-        estabelecimento['fotosEstabelecimento'] = estabelecimentoFotos
+    estabelecimento['fotosEstabelecimento'] = estabelecimentoFotos
 
-        return jsonify(estabelecimento)
-    except Exception as ex:
-        print(ex.args)
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
+    return jsonify(estabelecimento)
 
 @bpestabelecimento.route('/estabelecimento', methods=['PUT'])
 @token_required
@@ -141,3 +135,18 @@ def verificaCNPJRepetido(cnpj):
     checkCnpj = Estabelecimento.query.filter_by(cnpj = cnpj).first()
     if checkCnpj is not None:
         abortComErro({'code': 409, 'body': {'mensagem': 'Este CNPJ já está cadastrado!'}}, 409)
+
+def getFoto(id):
+    try:
+        return Foto.query.filter_by(id = id).first()
+    except Exception as ex:
+        print(ex.args)
+        abortComErro({'code': 500, 'body': {'mensagem': 'Erro interno!'}}, 500)
+
+# retorna todas as fotos do estabelecimento, com exceção da foto de perfil
+def getListaDeFotosDoEstabelecimento(estabelecimento):
+    try:
+        return Foto.query.filter(Foto.idEstabelecimento == estabelecimento.id).filter(Foto.id != estabelecimento.fotoPerfil).all()
+    except Exception as ex:
+        print(ex.args)
+        abortComErro({'code': 500, 'body': {'mensagem': 'Erro interno!'}}, 500)
