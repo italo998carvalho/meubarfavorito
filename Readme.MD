@@ -205,19 +205,6 @@
 }
 ```
 
-###### /novapartida - POST
-###### Cadastra uma partida
-```bash
-{
-	"nomeMandante": "Palmeiras", 
-	"escudoMandante": "b64qoiwueoquwoeoqie", 
-	"escudoVisitante": "b64qoiwueoquwoeoqqw", 
-	"dataHora": "30-06-2019 21:45", 
-	"estadio": "Allianz Park", 
-    "campeonato": "Campeonato Brasileiro"
-}
-```
-
 ### Apply migrations
 ```bash
 export FLASK_APP=meuBarFavorito/app.py
