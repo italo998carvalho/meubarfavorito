@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from meuBarFavorito.infraestructure.DbAccess import commit, salvar, deletar, abortComErro
+from meuBarFavorito.infraestructure.DbAccess import getEstabelecimento, getEvento, getEventoPorPartida, getFoto, getListaDeFotosDoEstabelecimento, getPartida
 from meuBarFavorito.models.Evento import Evento
 from meuBarFavorito.models.Partida import Partida
 from meuBarFavorito.models.Estabelecimento import Estabelecimento
@@ -30,112 +31,98 @@ def postEvento(estabelecimentoAtual):
 
 @bpevento.route('/evento', methods=['GET'])
 def getEventos():
-    try:
-        eventos = Evento.query.all()
+    eventos = Evento.query.all()
 
-        eventosCompletos = []
-        for evento in eventos:
-            partida = Partida.query.filter_by(id = evento.idPartida).first()
-            estabelecimento = Estabelecimento.query.filter_by(id = evento.idEstabelecimento).first()
-            fotoPerfil = Foto.query.filter_by(id = estabelecimento.fotoPerfil).first()
-
-            eventoAtual = {}
-            eventoAtual['id'] = evento.id
-            eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
-            eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
-            eventoAtual['fotoPerfil'] = fotoPerfil.midia
-            eventoAtual['nomeMandante'] = partida.nomeMandante
-            eventoAtual['escudoMandante'] = partida.escudoMandante
-            eventoAtual['nomeVisitante'] = partida.nomeVisitante
-            eventoAtual['escudoVisitante'] = partida.escudoVisitante
-            eventoAtual['data'] = partida.dataHora
-            eventoAtual['campeonato'] = partida.campeonato
-            eventoAtual['estadio'] = partida.estadio
-
-            eventosCompletos.append(eventoAtual)
-
-        return jsonify(eventosCompletos)
-
-    except Exception as ex:
-        print(ex.args)
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
-
-@bpevento.route('/evento/<int:id>', methods=['GET'])
-def getOneEvento(id):
-    try:
-        evento = Evento.query.filter_by(id = id).first()
-        partida = Partida.query.filter_by(id = evento.idPartida).first()
-        estabelecimento = Estabelecimento.query.filter_by(id = evento.idEstabelecimento).first()
-        fotoPerfil = Foto.query.filter_by(id = estabelecimento.fotoPerfil).first()
+    eventosCompletos = []
+    for evento in eventos:
+        partida = getPartida(evento.idPartida)
+        estabelecimento = getEstabelecimento(evento.idEstabelecimento)
+        fotoPerfil = getFoto(estabelecimento.fotoPerfil)
 
         eventoAtual = {}
         eventoAtual['id'] = evento.id
-        eventoAtual['visualizacoes'] = evento.visualizacoes
-
-        evento.visualizacoes += 1
-        db.session.commit()
-
         eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
-        eventoAtual['descricaoEstabelecimento'] = estabelecimento.descricao
-        eventoAtual['email'] = estabelecimento.email
-        eventoAtual['telefone'] = estabelecimento.telefone
-        eventoAtual['celular'] = estabelecimento.celular
         eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
         eventoAtual['fotoPerfil'] = fotoPerfil.midia
-        eventoAtual['cep'] = estabelecimento.cep
-
-        fotos = Foto.query.filter_by(idEstabelecimento = estabelecimento.id).all()
-
-        fotosEvento = []
-        for foto in fotos:
-            fotosEvento.append(foto.midia)
-        
-        eventoAtual['fotosEstabelecimento'] = fotosEvento
-
         eventoAtual['nomeMandante'] = partida.nomeMandante
         eventoAtual['escudoMandante'] = partida.escudoMandante
         eventoAtual['nomeVisitante'] = partida.nomeVisitante
         eventoAtual['escudoVisitante'] = partida.escudoVisitante
-        eventoAtual['estadio'] = partida.estadio
         eventoAtual['data'] = partida.dataHora
         eventoAtual['campeonato'] = partida.campeonato
+        eventoAtual['estadio'] = partida.estadio
 
-        return jsonify(eventoAtual)
-    except Exception as ex:
-        print(ex.args)
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
+        eventosCompletos.append(eventoAtual)
+
+    return jsonify(eventosCompletos)
+
+@bpevento.route('/evento/<int:id>', methods=['GET'])
+def getOneEvento(id):
+    evento = getEvento(id)
+    partida = getPartida(evento.idPartida)
+    estabelecimento = getEstabelecimento(evento.idEstabelecimento)
+    fotoPerfil = getFoto(estabelecimento.fotoPerfil)
+
+    eventoAtual = {}
+    eventoAtual['id'] = evento.id
+    eventoAtual['visualizacoes'] = evento.visualizacoes
+
+    evento.visualizacoes += 1
+    db.session.commit()
+
+    eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
+    eventoAtual['descricaoEstabelecimento'] = estabelecimento.descricao
+    eventoAtual['email'] = estabelecimento.email
+    eventoAtual['telefone'] = estabelecimento.telefone
+    eventoAtual['celular'] = estabelecimento.celular
+    eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
+    eventoAtual['fotoPerfil'] = fotoPerfil.midia
+    eventoAtual['cep'] = estabelecimento.cep
+
+    fotos = getListaDeFotosDoEstabelecimento(estabelecimento.id)
+
+    fotosEvento = []
+    for foto in fotos:
+        fotosEvento.append(foto.midia)
+    
+    eventoAtual['fotosEstabelecimento'] = fotosEvento
+
+    eventoAtual['nomeMandante'] = partida.nomeMandante
+    eventoAtual['escudoMandante'] = partida.escudoMandante
+    eventoAtual['nomeVisitante'] = partida.nomeVisitante
+    eventoAtual['escudoVisitante'] = partida.escudoVisitante
+    eventoAtual['estadio'] = partida.estadio
+    eventoAtual['data'] = partida.dataHora
+    eventoAtual['campeonato'] = partida.campeonato
+
+    return jsonify(eventoAtual)
 
 @bpevento.route('/partida/<int:id>/evento', methods=['GET'])
 def getEventosPorPartida(id):
-    try:
-        partida = Partida.query.filter_by(id = id).first()
-        eventos = Evento.query.filter_by(idPartida = partida.id).all()
+    partida = getPartida(id)
+    eventos = getEventoPorPartida(partida.id)
 
-        eventosCompletos = []
-        for evento in eventos:
-            estabelecimento = Estabelecimento.query.filter_by(id = evento.idEstabelecimento).first()
-            fotoPerfil = Foto.query.filter_by(id = estabelecimento.fotoPerfil).first()
+    eventosCompletos = []
+    for evento in eventos:
+        estabelecimento = getEstabelecimento(evento.idEstabelecimento)
+        fotoPerfil = getFoto(estabelecimento.fotoPerfil)
 
-            eventoAtual = {}
-            eventoAtual['id'] = evento.id
-            eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
-            eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
-            eventoAtual['fotoPerfil'] = fotoPerfil.midia
-            eventoAtual['nomeMandante'] = partida.nomeMandante
-            eventoAtual['escudoMandante'] = partida.escudoMandante
-            eventoAtual['nomeVisitante'] = partida.nomeVisitante
-            eventoAtual['escudoVisitante'] = partida.escudoVisitante
-            eventoAtual['data'] = partida.dataHora
-            eventoAtual['campeonato'] = partida.campeonato
-            eventoAtual['estadio'] = partida.estadio
+        eventoAtual = {}
+        eventoAtual['id'] = evento.id
+        eventoAtual['nomeEstabelecimento'] = estabelecimento.nome
+        eventoAtual['enderecoEstabelecimento'] = estabelecimento.endereco
+        eventoAtual['fotoPerfil'] = fotoPerfil.midia
+        eventoAtual['nomeMandante'] = partida.nomeMandante
+        eventoAtual['escudoMandante'] = partida.escudoMandante
+        eventoAtual['nomeVisitante'] = partida.nomeVisitante
+        eventoAtual['escudoVisitante'] = partida.escudoVisitante
+        eventoAtual['data'] = partida.dataHora
+        eventoAtual['campeonato'] = partida.campeonato
+        eventoAtual['estadio'] = partida.estadio
 
-            eventosCompletos.append(eventoAtual)
+        eventosCompletos.append(eventoAtual)
 
-        return jsonify(eventosCompletos)
-    
-    except Exception as ex:
-        print(ex.args)
-        return jsonify({'code': 500, 'body': {'mensagem': 'Erro interno!'}}), 500
+    return jsonify(eventosCompletos)
 
 def cadastrarEvento(idEstabelecimento, idPartida, horaInicio, horaFim, descricao):
     novoEvento = Evento(idEstabelecimento, idPartida, horaInicio, horaFim, descricao)
