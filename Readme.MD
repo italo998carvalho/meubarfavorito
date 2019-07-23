@@ -33,9 +33,9 @@ Note: All of this configuration were made in a Linux Ubuntu 18.04 environment
 
 {
 
-"email": "bardoze@email.com",
+	"email": "bardoze@email.com",
 
-"senha": "123"
+	"senha": "123"
 
 }
 
@@ -322,25 +322,25 @@ Note: All of this configuration were made in a Linux Ubuntu 18.04 environment
 
 	{
 
-	"campeonato": "Brazilian League",
+		"campeonato": "Brazilian League",
 
-	"data": "Sun, 30 Jun 2019 21:45:00 GMT",
+		"data": "Sun, 30 Jun 2019 21:45:00 GMT",
 
-	"enderecoEstabelecimento": "12th Street, 124",
+		"enderecoEstabelecimento": "12th Street, 124",
 
-	"escudoMandante": "b64qoiwueoquwoeoqie",
+		"escudoMandante": "b64qoiwueoquwoeoqie",
 
-	"escudoVisitante": "b64qoiwueoquwoeoqqw",
+		"escudoVisitante": "b64qoiwueoquwoeoqqw",
 
-	"fotoPerfil": "b64qiowueoqiwe",
+		"fotoPerfil": "b64qiowueoqiwe",
 
-	"id": 3,
+		"id": 3,
 
-	"nomeEstabelecimento": "John's Pub",
+		"nomeEstabelecimento": "John's Pub",
 
-	"nomeMandante": "Palmeiras",
+		"nomeMandante": "Palmeiras",
 
-	"nomeVisitante": "Corinthians"
+		"nomeVisitante": "Corinthians"
 
 	}
 
@@ -365,37 +365,37 @@ Note: All of this configuration were made in a Linux Ubuntu 18.04 environment
 
 	{
 
-	"campeonato": "Brazilian League",
+		"campeonato": "Brazilian League",
 
-	"dataHora": "Sun, 30 Jun 2019 21:45:00 GMT",
+		"dataHora": "Sun, 30 Jun 2019 21:45:00 GMT",
 
-	"id": 17,
+		"id": 17,
 
-	"nomeMandante": "Palmeiras",
+		"nomeMandante": "Palmeiras",
 
-	"escudoMandante": "b64qoiwueoquwoeoqie",
+		"escudoMandante": "b64qoiwueoquwoeoqie",
 
-	"nomeVisitante": "Corinthians",
+		"nomeVisitante": "Corinthians",
 
-	"escudoVisitante": "b64qoiwueoquwoeoqqw"
+		"escudoVisitante": "b64qoiwueoquwoeoqqw"
 
 	},
 
 	{
 
-	"campeonato": "Brazilian League",
+		"campeonato": "Brazilian League",
 
-	"dataHora": "Sun, 02 Jul 2019 21:45:00 GMT",
+		"dataHora": "Sun, 02 Jul 2019 21:45:00 GMT",
 
-	"id": 1,
+		"id": 1,
 
-	"nomeMandante": "Internacional",
+		"nomeMandante": "Internacional",
 
-	"escudoMandante": "b64qoiwueoquwoeoqas",
+		"escudoMandante": "b64qoiwueoquwoeoqas",
 
-	"nomeVisitante": "Grêmio",
+		"nomeVisitante": "Grêmio",
 
-	"escudoVisitante": "b64qoiwueoquwoeoqjh"
+		"escudoVisitante": "b64qoiwueoquwoeoqjh"
 
 	}
 
@@ -414,19 +414,19 @@ Note: All of this configuration were made in a Linux Ubuntu 18.04 environment
 
 {
 
-"campeonato": "Brazilian League",
+	"campeonato": "Brazilian League",
 
-"dataHora": "Sun, 30 Jun 2019 21:45:00 GMT",
+	"dataHora": "Sun, 30 Jun 2019 21:45:00 GMT",
 
-"escudoMandante": "b64qoiwueoquwoeoqie",
+	"escudoMandante": "b64qoiwueoquwoeoqie",
 
-"escudoVisitante": "b64qoiwueoquwoeoqqw",
+	"escudoVisitante": "b64qoiwueoquwoeoqqw",
 
-"estadio": "Allianz Park",
+	"estadio": "Allianz Park",
 
-"nomeMandante": "Palmeiras",
+	"nomeMandante": "Palmeiras",
 
-"nomeVisitante": "Corinthians"
+	"nomeVisitante": "Corinthians"
 
 }
 
