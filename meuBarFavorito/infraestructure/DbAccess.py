@@ -72,3 +72,10 @@ def getPartida(id):
     except Exception as ex:
         print(ex.args)
         abortComErro({'code': 500, 'body': {'mensagem': 'Erro interno!'}}, 500)
+
+def getListaDePartidas():
+    try:
+        return Partida.query.all()
+    except Exception as ex:
+        print(ex.args)
+        abortComErro({'code': 500, 'body': {'mensagem': 'Erro interno!'}}, 500)
